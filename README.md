@@ -132,6 +132,24 @@ shouting_snake_case(Text) ->
     |> fun string:uppercase/1. % Good old fun m:f/a notation also works.
 ```
 
+It also solves another problem, namely the fact that arity N functions
+_look like_ arity N-1 functions when piping is used in Elixir. This is not a
+problem in `|>`'s native language OCaml, which is curried.
+```elixir
+def sum(a, b) do
+    a + b
+end
+
+def sum(a, b, c) do
+    a + b + c
+end
+
+def magic() do
+    100
+    |> sum(1, 2) # looks exactly like sum/2, is actually a call to sum/3.
+end
+```
+
 The `fun` keyword is repeated quite a lot. `|>` could, as syntactic sugar,
 add an implicit `fun`. It would look nicer, though it may not be a good idea
 to make these `fun`s look different from other `fun`s.
