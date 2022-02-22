@@ -158,7 +158,7 @@ options currently are to wrap the whole thing in a `fun`, or in a wrapper
 function that reduces the amount of arguments. A wrapper is a perfectly valid
 approach for helper functions that are used in several places, but wrapping
 a single function call inside a function just so it can be used in one
-`lists:foldl/3` in one module might be overkill.
+higher-order function in a single function of a single module can be overkill.
 
 ```erlang
 %%% With a wrapper function
