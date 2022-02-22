@@ -7,7 +7,7 @@ A lot of the contents of this document is from
 [this thread](https://erlangforums.com/t/is-partial-function-application-in-erlang-a-good-idea/473)
 on the Erlang forums, where I got much valuable input and different opinions.
 
-## Abstract
+# Abstract
 I think the language would benefit from having a special syntax for partial
 function application not only for the current 0 arguments applied, but for
 an arbitrary amount of arguments, to allow for more expressive use of
@@ -28,7 +28,7 @@ lists:filter(fun lists:prefix("hello", _), ["hello world", "goodbye world"]).
 ```
 Here, `_` is used as a special "missing argument" marker.
 
-## Short intro to partial function application
+# Short intro to partial function application
 Partial function application is a concept where a function call can be done
 without providing all arguments. The resulting return value would be a new
 function which accepts the remaining arguments.
@@ -38,7 +38,7 @@ prerequisite for how the language works; there is no meaningful distinction
 between a function that takes two arguments, and a function that takes one
 argument and returns another function that takes one argument.
 
-### Example from Haskell
+## Example from Haskell
 A trivial example from Haskell is shown below.
 ```haskell
 increment = (+) 1
@@ -47,7 +47,7 @@ Since `+` is a function that takes two arguments, but only a `1` was applied,
 `increment` will be a function that takes a number and returns another number.
 In other words, `increment 100` would return `101`.
 
-## Arity and partial function application
+# Arity and partial function application
 Since arity is part of the function signature in Erlang, unlike in curried
 languages, simply omitting arguments to achieve partial function application
 would not make sense - is `string:trim("   hello   ")` the string "hello", or
@@ -56,7 +56,7 @@ is it the function:
 fun(Dir, Characters) -> string:trim("   hello   ", Dir, Characters) end.
 ```
 
-### Special syntax
+## Special syntax
 A special marker would be used to mark any missing arguments. I have chosen
 `_` for this purpose, since I couldn't think of any other time it would be used
 on the right-hand side of a pattern match, but any marker would do.
@@ -66,7 +66,7 @@ will be added before partially applied functions.
 ```erlang
 TrimNewline = fun string:trim(_, trailing, "\r\n").
 ```
-#### Semi-useful side-effects
+## Semi-useful side-effects
 As a curious side-effect "partially applied" functions with _all_ arguments
 already supplied can be used to construct arity 0 functions this way.
 ```erlang
@@ -86,8 +86,8 @@ lists:filter(fun string:is_empty(_), ["", "", "", "nope"]).
 %%% ["", "", ""]
 ```
 
-## Motivation
-### More expressive higher-order function usage
+# Motivation
+## More expressive higher-order function usage
 Oftentimes when using `map`, `fold` or `filter` functions, the function
 argument often becomes very long due to the added `fun`, `->`, `end`
 and repetition of placeholder variables when defining a simple wrapper
@@ -98,7 +98,7 @@ and `lists:filter/2` cases, but there's no clean way for `fold`s, nor can list
 comprehension be used to solve the same problem for other data structures'
 higher-order functions, e.g., `maps:map/2`, `sets:filter/2`.
 
-### Allow for flexible pipe-operator syntax in the future
+## Allow for flexible pipe-operator syntax in the future
 The pipe operator is not a feature in Erlang, at least not yet, but since Elixir
 introduced an OCaml-like pipe operator `|>`, there has been a lot of talk about
 wanting to add one to Erlang as well, not least by Joe Armstrong in
@@ -142,7 +142,7 @@ shouting_snake_case(Text) ->
     string:uppercase(lists:join("_", string:tokens(Text, " ,.:"))).
 ```
 
-## Comparison to current Erlang
+# Comparison to current Erlang
 To be clear, adding partial function application would not be ground-breaking
 and allow for never before seen applications of Erlang.
 It is simply a shorthand form of wrapping a single function call in a `fun`.
@@ -194,7 +194,7 @@ sets:map(string:trim(_, trailing, "\r\n"), Lines).
 sets:map(fun(Ln) -> string:trim(Ln, trailing, "\r\n") end, Lines).
 ```
 
-## Real-life use cases
+# Real-life use cases
 Some examples in OTP that could have been clearer, more concise or just nicer
 in general with the use of partial function application.
 
@@ -207,7 +207,7 @@ Todo:
   Needs to be updated with the `fun` keyword, to remove ambiguity
   mentioned in the forums.
 
-### `diameter_service.erl`
+## `diameter_service.erl`
 * https://github.com/erlang/otp/blob/98b6ec065782ed17010fb2548764a72f540ef9ab/lib/diameter/src/base/diameter_service.erl#L628
 * https://github.com/erlang/otp/blob/98b6ec065782ed17010fb2548764a72f540ef9ab/lib/diameter/src/base/diameter_service.erl#L636
 * https://github.com/erlang/otp/blob/98b6ec065782ed17010fb2548764a72f540ef9ab/lib/diameter/src/base/diameter_service.erl#L1770
