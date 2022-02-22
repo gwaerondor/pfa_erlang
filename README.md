@@ -53,7 +53,7 @@ languages, simply omitting arguments to achieve partial function application
 would not make sense - is `string:trim("   hello   ")` the string "hello", or
 is it the function:
 ```erlang
-fun(Dir, Characters) -> string:trim("   hello   ", Dir, Characters).
+fun(Dir, Characters) -> string:trim("   hello   ", Dir, Characters) end.
 ```
 
 ### Special syntax
